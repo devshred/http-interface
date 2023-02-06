@@ -11,7 +11,7 @@ import org.springframework.web.reactive.function.client.support.WebClientAdapter
 import org.springframework.web.service.invoker.HttpServiceProxyFactory;
 
 @SpringBootApplication
-public class HttpInterfaceApplication {
+public class Application {
     @Value("${person-api.baseUrl}")
     private String baseUrl;
 
@@ -22,7 +22,7 @@ public class HttpInterfaceApplication {
     private String password;
 
     public static void main(String[] args) {
-        SpringApplication.run(HttpInterfaceApplication.class, args);
+        SpringApplication.run(Application.class, args);
     }
 
     @Bean
