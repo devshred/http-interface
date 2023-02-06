@@ -22,16 +22,15 @@ import org.springframework.cloud.contract.wiremock.AutoConfigureWireMock;
 @SpringBootTest
 @AutoConfigureWireMock(port = 0)
 class PersonTest {
-    private static final String PERSON_AS_JSON = """
-            {"id": 123, "name": "Peter"}
-            """;
 
     @Autowired
     private PersonApi personApi;
 
     @Test
     void testGet() {
-        stubFor(get("/person/123").willReturn(okJson(PERSON_AS_JSON)));
+        stubFor(get("/person/123").willReturn(okJson("""
+                {"id": 123, "name": "Peter"}
+                """)));
 
         var person = personApi.getPerson(123L);
 
@@ -42,12 +41,11 @@ class PersonTest {
 
     @Test
     void testPost() {
-        stubFor(post("/person").willReturn(
-                aResponse().withStatus(201).withHeader("Content-Type", "application/json").withBody(PERSON_AS_JSON)));
+        stubFor(post("/person").willReturn(aResponse().withStatus(201).withHeader("Location", "/person/123")));
 
-        var person = personApi.createPerson(new Person("Peter"));
+        var responseEntity = personApi.createPerson(new Person("Peter"));
 
-        assertThat(person).isEqualTo(new Person(123L, "Peter"));
+        assertThat(responseEntity.getHeaders().getLocation().toString()).isEqualTo("/person/123");
 
         verify(postRequestedFor(urlPathMatching("/person")));
     }

@@ -12,7 +12,7 @@ interface PersonApi {
     Person getPerson(@PathVariable Long id);
 
     @PostExchange("/person")
-    Person createPerson(@RequestBody Person person);
+    ResponseEntity<Void> createPerson(@RequestBody Person person);
 
     @DeleteExchange("/person/{id}")
     ResponseEntity<Void> deletePerson(@PathVariable Long id);
