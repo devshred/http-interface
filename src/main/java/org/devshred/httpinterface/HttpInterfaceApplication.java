@@ -15,6 +15,12 @@ public class HttpInterfaceApplication {
     @Value("${person-api.baseUrl}")
     private String baseUrl;
 
+    @Value("${person-api.username}")
+    private String username;
+
+    @Value("${person-api.password}")
+    private String password;
+
     public static void main(String[] args) {
         SpringApplication.run(HttpInterfaceApplication.class, args);
     }
@@ -22,7 +28,8 @@ public class HttpInterfaceApplication {
     @Bean
     public PersonApi personApi() {
         var webClient = WebClient.builder().baseUrl(baseUrl)
-                .defaultStatusHandler(HttpStatusCode::isError, ClientResponse::createException).build();
+                .defaultStatusHandler(HttpStatusCode::isError, ClientResponse::createException)
+                .defaultHeaders(header -> header.setBasicAuth(username, password)).build();
 
         var httpServiceProxyFactory = HttpServiceProxyFactory //
                 .builder(WebClientAdapter.forClient(webClient)) //

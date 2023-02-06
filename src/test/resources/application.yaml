@@ -1,2 +1,5 @@
-person-api.baseUrl: http://localhost:${wiremock.server.port:8090}/
+person-api:
+  baseUrl: http://localhost:${wiremock.server.port:8090}/
+  username: user
+  password: s3cr3t
 wiremock.reset-mappings-after-each-test: true

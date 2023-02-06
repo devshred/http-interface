@@ -22,6 +22,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.cloud.contract.wiremock.AutoConfigureWireMock;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 
+import com.github.tomakehurst.wiremock.client.BasicCredentials;
+
 @SpringBootTest
 @AutoConfigureWireMock(port = 0)
 class PersonTest {
@@ -39,7 +41,8 @@ class PersonTest {
 
         assertThat(person).isEqualTo(new Person(123L, "Peter"));
 
-        verify(getRequestedFor(urlPathMatching("/person/123")));
+        verify(getRequestedFor(urlPathMatching("/person/123")) //
+                .withBasicAuth(new BasicCredentials("user", "s3cr3t")));
     }
 
     @Test
