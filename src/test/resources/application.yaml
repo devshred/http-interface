@@ -1,0 +1,2 @@
+person-api.baseUrl: http://localhost:${wiremock.server.port:8090}/
+wiremock.reset-mappings-after-each-test: true

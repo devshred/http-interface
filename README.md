@@ -1,0 +1,1 @@
+Simple example on how to create HTTP endpoints based on HTTP service interfaces with Spring.
